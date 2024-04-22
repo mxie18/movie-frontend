@@ -7,8 +7,10 @@ export default function CurrentUser({ children }: { children: any }) {
     const fetchCurrentUser = async () => {
         try {
             const currentUser = await client.profile();
+            console.log("cached in current user reducer", currentUser);
             dispatch(setCurrentUser(currentUser));
         } catch (error) {
+            console.log("here");
             dispatch(setCurrentUser(null));
         }
     };

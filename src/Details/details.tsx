@@ -23,7 +23,7 @@ export default function Default() {
             findDetails(movieId);
             findUsersWhoLiked(movieId);
         }
-    }, [movieId]);
+    }, [movieId, users]);
 
     const { currentUser } = useSelector((state: any) => state.user);
 
@@ -59,7 +59,7 @@ export default function Default() {
                     <h3>users who liked</h3>
                     {users.map((user: any) => (
                         <div key={user._id}>
-                            <Link to={`/account/${user._id}`}>
+                            <Link to={`/profile/${user._id}`}>
                                 {user.username}
                             </Link>
                         </div>

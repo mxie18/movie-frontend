@@ -55,3 +55,29 @@ export const findAllUsers = async () => {
     const response = await axiosWithCreds.get(`${USERS_API}`);
     return response.data;
 };
+
+export const followUser = async (user: any) => {
+    const response = await axiosWithCreds.post(`${USERS_API}/follow`, user);
+    return response.data;
+};
+
+export const unfollowUser = async (userId: string) => {
+    const response = await axiosWithCreds.delete(
+        `${USERS_API}/unfollow/${userId}`
+    );
+    return response.data;
+};
+
+export const findFollowers = async (userId: string) => {
+    const response = await axiosWithCreds.get(
+        `${USERS_API}/${userId}/followers`
+    );
+    return response.data;
+};
+
+export const findFollowing = async (userId: string) => {
+    const response = await axiosWithCreds.get(
+        `${USERS_API}/${userId}/following`
+    );
+    return response.data;
+};

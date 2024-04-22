@@ -25,8 +25,6 @@ export default function Search() {
         }
     }, [term]);
 
-    console.log("hello");
-
     return (
         <div>
             <h1>SEARCH</h1>

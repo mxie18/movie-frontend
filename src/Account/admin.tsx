@@ -11,7 +11,6 @@ export default function Admin() {
     });
 
     const createUser = async () => {
-        console.log("hello");
         try {
             const newUser = await client.createUser(user);
             setUsers([newUser, ...users]);

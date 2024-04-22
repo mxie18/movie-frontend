@@ -50,37 +50,58 @@ export default function Profile() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const fetchProfile = async () => {
+    const fetch2 = async () => {
+        let profile;
         try {
-            console.log(" own profile fetched");
-            const profile = await client.profile();
-            console.log(profile);
-            dispatch(setCurrentUser(profile));
+            if (userId) {
+                profile = await client.otherProfile(userId);
+            } else {
+                profile = await client.profile();
+                dispatch(setCurrentUser(profile));
+            }
             setProfile(profile);
             findLiked(profile._id);
             findFollowers(profile._id);
             findFollowing(profile._id);
-        } catch {
-            dispatch(setCurrentUser(null));
-            navigate("/login");
-        }
-    };
-
-    const fetchOtherProfile = async () => {
-        try {
-            if (userId) {
-                console.log(" other profile fetched");
-
-                const profile = await client.otherProfile(userId);
-                setProfile(profile);
-                findLiked(userId);
-                findFollowers(profile._id);
-                findFollowing(profile._id);
-            }
         } catch (error) {
+            if (!userId) {
+                dispatch(setCurrentUser(null));
+            }
             navigate("/login");
         }
     };
+
+    // const fetchProfile = async () => {
+    //     try {
+    //         console.log(" own profile fetched");
+    //         const profile = await client.profile();
+    //         console.log(profile);
+    //         dispatch(setCurrentUser(profile));
+    //         setProfile(profile);
+    //         findLiked(profile._id);
+    //         findFollowers(profile._id);
+    //         findFollowing(profile._id);
+    //     } catch {
+    //         dispatch(setCurrentUser(null));
+    //         navigate("/login");
+    //     }
+    // };
+
+    // const fetchOtherProfile = async () => {
+    //     try {
+    //         if (userId) {
+    //             console.log(" other profile fetched");
+
+    //             const profile = await client.otherProfile(userId);
+    //             setProfile(profile);
+    //             findLiked(userId);
+    //             findFollowers(profile._id);
+    //             findFollowing(profile._id);
+    //         }
+    //     } catch (error) {
+    //         navigate("/login");
+    //     }
+    // };
 
     const signout = async () => {
         await client.signout();
@@ -94,12 +115,12 @@ export default function Profile() {
 
     const follow = async (user: any) => {
         await client.followUser(user);
-        fetchOtherProfile();
+        fetch2();
     };
 
     const unfollow = async (user: any) => {
         await client.unfollowUser(user);
-        fetchOtherProfile();
+        fetch2();
     };
 
     useEffect(() => {
@@ -107,22 +128,17 @@ export default function Profile() {
             console.log(currentUser);
             navigate("/profile");
         } else {
-            console.log("in else");
-            if (isOwnUser) {
-                fetchProfile();
-            } else {
-                fetchOtherProfile();
-            }
+            // console.log("in else");
+            // if (isOwnUser) {
+            //     fetchProfile();
+            // } else {
+            //     fetchOtherProfile();
+            // }
+            fetch2();
         }
 
         fetchUsers();
     }, [userId]);
-
-    // console.log(currentUser._id, profile._id);
-
-    // if (currentUser._id == profile._id) {
-    //     navigate("/profile");
-    // }
 
     return (
         <div>

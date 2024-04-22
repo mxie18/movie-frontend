@@ -25,7 +25,7 @@ function App() {
     return (
         <Provider store={store}>
             <CurrentUser>
-                <BrowserRouter>
+                <HashRouter>
                     <Routes>
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<Home />} />
@@ -43,7 +43,7 @@ function App() {
                             element={<Details />}
                         />
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
             </CurrentUser>
         </Provider>
     );

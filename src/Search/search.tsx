@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import * as client from "./client";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import "./index.css";
+import MoviesList from "../Movies/movies";
 
 export default function Search() {
     const { term } = useParams();
@@ -27,20 +30,8 @@ export default function Search() {
 
     return (
         <div>
-            <h1>SEARCH</h1>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} />
-            <button onClick={() => searchMovies(query)}>Search</button>
-            {results.map((movie: any) => (
-                <Link to={`/movie/details/${movie.id}`}>
-                    <div key={movie.id}>
-                        {<h4>{movie.title}</h4>}
-                        <img
-                            style={{}}
-                            src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
-                        />
-                    </div>
-                </Link>
-            ))}
+            <h2 className="m-3">Search results for {term}</h2>
+            <MoviesList movies={results} />
         </div>
     );
 }

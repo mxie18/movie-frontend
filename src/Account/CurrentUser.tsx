@@ -10,7 +10,7 @@ export default function CurrentUser({ children }: { children: any }) {
             console.log("cached in current user reducer", currentUser);
             dispatch(setCurrentUser(currentUser));
         } catch (error) {
-            console.log("here");
+            console.log("error fetching current user reducer initial");
             dispatch(setCurrentUser(null));
         }
     };

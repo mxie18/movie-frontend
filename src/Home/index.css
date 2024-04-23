@@ -1,0 +1,10 @@
+.movie-card-container:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.movie-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

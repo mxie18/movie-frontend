@@ -1,12 +1,18 @@
 import { Link, useParams } from "react-router-dom";
 import * as client from "./client";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import "./index.css";
+import { setCurrentUser } from "../Account/reducer";
 
-export default function Default() {
+export default function Details() {
     const { movieId } = useParams();
     const [movie, setMovie] = useState<any>({});
     const [users, setUsers] = useState<any>([]);
+
+    const dispatch = useDispatch();
+
+    const { currentUser } = useSelector((state: any) => state.user);
 
     const findDetails = async (id: string) => {
         const movie = await client.getMovieDetails(id);
@@ -23,36 +29,54 @@ export default function Default() {
             findDetails(movieId);
             findUsersWhoLiked(movieId);
         }
-    }, [movieId, users]);
-
-    const { currentUser } = useSelector((state: any) => state.user);
+    }, [movieId]);
 
     return (
-        <div>
-            <h1>{movie.original_title}</h1>
-            <Link to="/home">back to home</Link>
+        <div className="m-3">
+            <div className="d-flex main-container">
+                <img
+                    style={{ borderRadius: 10 }}
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                />
+
+                <div className="movie-info">
+                    <h2>{movie.original_title}</h2>
+                    {movie.overview}
+
+                    <h3>Budget {movie.budget}</h3>
+                    <h3>Revenue {movie.revenue} </h3>
+
+                    <h3>Length {movie.runtime} minutes </h3>
+                </div>
+            </div>
+
+            {/* <img
+                src={`https://image.tmdb.org/t/p/w780/${movie.backdrop_path}`}
+            /> */}
+            {/* <Link to="/home">back to home</Link> */}
             {currentUser && (
                 <>
                     <button
-                        onClick={() => {
-                            client.userLikesMovie({
+                        onClick={async () => {
+                            await client.userLikesMovie({
                                 movieId: movie.id,
                                 name: movie.title,
                             });
+                            findUsersWhoLiked(movie.id);
                         }}
                     >
                         like
                     </button>
                     <button
-                        onClick={() => {
-                            client.userUnlikesMovie(movie.id);
+                        onClick={async () => {
+                            await client.userUnlikesMovie(movie.id);
+                            findUsersWhoLiked(movie.id);
                         }}
                     >
-                        dislike
+                        unlike
                     </button>
                 </>
             )}
-            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
 
             {users && users.length > 0 && (
                 <>

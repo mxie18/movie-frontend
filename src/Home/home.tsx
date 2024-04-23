@@ -2,24 +2,62 @@ import { Link } from "react-router-dom";
 import * as client from "./client";
 import { useEffect, useState } from "react";
 import Search from "../Search/search";
-import { UseSelector, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../Account/reducer";
+import MoviesList from "../Movies/movies";
+
+import * as updateUser from "../Account/client";
+import "./index.css";
 
 export default function Home() {
     let [movies, setMovies] = useState<any>([]);
+
+    const dispatch = useDispatch();
+
     const getTrending = async () => {
         const movies = await client.getTrendingMovies();
         setMovies(movies);
     };
-    useEffect(() => {
-        getTrending();
-    }, []);
+
+    const getRecommended = async (movieId: string) => {
+        const externalMovieId = await client.getExternalMovieID(movieId);
+        console.log("movieId", externalMovieId);
+
+        const movies = await client.getRecommendedMovies(externalMovieId);
+        console.log("recommended", movies);
+        setMovies(movies);
+    };
+
+    const getProfile = async () => {
+        try {
+            const profile = await updateUser.profile();
+
+            if (profile && profile.moviesLiked.length > 0) {
+                console.log("asdasdasdasd");
+                setText(`Recommended movies for ${profile.username}`);
+                getRecommended(profile.moviesLiked[0]);
+            }
+
+            dispatch(setCurrentUser(profile));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const { currentUser } = useSelector((state: any) => state.user);
 
+    useEffect(() => {
+        getTrending();
+        getProfile();
+    }, []);
+
+    let [text, setText] = useState("Trending Now");
+
+    console.log(currentUser);
+
     return (
-        <>
-            <h1>HOME</h1>
-            {currentUser && (
+        <div>
+            {/* {currentUser && (
                 <>
                     <h3>WELCOME {currentUser.username} </h3>
                     <Link to="/profile"> go to profile</Link>
@@ -31,19 +69,10 @@ export default function Home() {
                     <h3>WELCOME GUEST</h3>
                     <Link to="/login"> go to login</Link>
                 </>
-            )}
+            )} */}
 
-            <Search />
-            <div className="d-flex flex-wrap">
-                {movies.map((movie: any) => (
-                    <div key={movie.id}>
-                        {<h4>{movie.title}</h4>}
-                        <img
-                            src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
-                        />
-                    </div>
-                ))}
-            </div>
-        </>
+            <h2 className="m-3">{text}</h2>
+            <MoviesList movies={movies} />
+        </div>
     );
 }

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import { setCurrentUser } from "../Account/reducer";
+import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike } from "react-icons/ai";
 
 export default function Details() {
     const { movieId } = useParams();
@@ -14,6 +16,8 @@ export default function Details() {
 
     const { currentUser } = useSelector((state: any) => state.user);
 
+    const [pressLike, setPressLike] = useState(false);
+
     const findDetails = async (id: string) => {
         const movie = await client.getMovieDetails(id);
         setMovie(movie);
@@ -22,74 +26,154 @@ export default function Details() {
     const findUsersWhoLiked = async (movieId: string) => {
         const users = await client.findUsersWhoLikedMovie(movieId);
         setUsers(users);
+        console.log("users in method", users);
     };
 
     useEffect(() => {
         if (movieId) {
             findDetails(movieId);
             findUsersWhoLiked(movieId);
+
+            if (users.some((user: any) => user._id == currentUser._id)) {
+                setPressLike(true);
+            }
         }
-    }, [movieId]);
+    }, [movieId, users.length]);
+
+    console.log("movie", movie);
 
     return (
-        <div className="m-3">
+        <div className="m-3 d-flex justify-content-center">
             <div className="d-flex main-container">
                 <img
                     style={{ borderRadius: 10 }}
                     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 />
 
-                <div className="movie-info">
-                    <h2>{movie.original_title}</h2>
-                    {movie.overview}
+                {currentUser && (
+                    <>
+                        {!pressLike && (
+                            <button
+                                className="btn button-style d-flex align-items-center overlay"
+                                style={{
+                                    fontSize: 16,
+                                    fontWeight: 500,
+                                }}
+                                onClick={async () => {
+                                    await client.userLikesMovie({
+                                        movieId: movie.id,
+                                        name: movie.title,
+                                    });
+                                    setPressLike(true);
+                                    findUsersWhoLiked(movie.id);
+                                }}
+                            >
+                                Like
+                                <AiFillLike
+                                    style={{
+                                        fontSize: 16,
+                                        marginLeft: 4,
+                                    }}
+                                />
+                            </button>
+                        )}
+                        {pressLike && (
+                            <button
+                                style={{
+                                    fontSize: 16,
+                                    fontWeight: 500,
+                                }}
+                                className="btn button-style d-flex align-items-center overlay"
+                                onClick={async () => {
+                                    await client.userUnlikesMovie(movie.id);
+                                    setPressLike(false);
+                                    findUsersWhoLiked(movie.id);
+                                }}
+                            >
+                                Unlike
+                                <AiFillDislike
+                                    style={{
+                                        fontSize: 16,
+                                        marginLeft: 4,
+                                    }}
+                                />
+                            </button>
+                        )}
+                    </>
+                )}
 
-                    <h3>Budget {movie.budget}</h3>
-                    <h3>Revenue {movie.revenue} </h3>
+                {movie && movie.revenue != undefined && (
+                    <div className="movie-info">
+                        <h1>{movie.original_title}</h1>
+                        <hr />
+                        {movie.overview}
 
-                    <h3>Length {movie.runtime} minutes </h3>
-                </div>
+                        <table
+                            className="table table-dark table-responsive details-table"
+                            style={{ marginTop: 30 }}
+                        >
+                            <tbody>
+                                <tr>
+                                    <td>Budget</td>
+                                    <td>${movie.budget.toLocaleString()}</td>
+                                </tr>
+                                <tr>
+                                    <td>Revenue</td>
+                                    <td>${movie.revenue.toLocaleString()}</td>
+                                </tr>
+                                <tr>
+                                    <td>Movie Runtime</td>
+                                    <td>{movie.runtime} minutes</td>
+                                </tr>
+                                <tr>
+                                    <td>Main Genre</td>
+                                    <td>{movie.genres[0].name} </td>
+                                </tr>
+                                <tr>
+                                    <td>Origin Country</td>
+                                    <td>{movie.origin_country} </td>
+                                </tr>
+                                <tr>
+                                    <td>Release Date</td>
+                                    <td>{movie.release_date} </td>
+                                </tr>
+                                <tr>
+                                    <td>Vote Average</td>
+                                    <td>{movie.vote_average} / 10 </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {users && users.length > 0 && (
+                            <>
+                                <h4 style={{ marginTop: 10 }}>Liked By</h4>
+                                <div className="users-who-liked-container">
+                                    {users.map((user: any) => (
+                                        <div key={user._id}>
+                                            <Link
+                                                to={`/profile/${user._id}`}
+                                                className="btn btn-secondary"
+                                                style={{
+                                                    fontWeight: 500,
+                                                    fontSize: 16,
+                                                    marginRight: 10,
+                                                }}
+                                            >
+                                                {user.username}
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* <img
                 src={`https://image.tmdb.org/t/p/w780/${movie.backdrop_path}`}
             /> */}
             {/* <Link to="/home">back to home</Link> */}
-            {currentUser && (
-                <>
-                    <button
-                        onClick={async () => {
-                            await client.userLikesMovie({
-                                movieId: movie.id,
-                                name: movie.title,
-                            });
-                            findUsersWhoLiked(movie.id);
-                        }}
-                    >
-                        like
-                    </button>
-                    <button
-                        onClick={async () => {
-                            await client.userUnlikesMovie(movie.id);
-                            findUsersWhoLiked(movie.id);
-                        }}
-                    >
-                        unlike
-                    </button>
-                </>
-            )}
-
-            {users && users.length > 0 && (
-                <>
-                    <h3>users who liked</h3>
-                    {users.map((user: any) => (
-                        <div key={user._id}>
-                            <Link to={`/profile/${user._id}`}>
-                                {user.username}
-                            </Link>
-                        </div>
-                    ))}
-                </>
-            )}
         </div>
     );
 }

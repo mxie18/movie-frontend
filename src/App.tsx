@@ -50,7 +50,7 @@ function App() {
                         <Route path="/profile/:userId" element={<Profile />} />
                         <Route path="/users" element={<Users />} />
 
-                        {/* <Route path="/search" element={<Search />} /> */}
+                        <Route path="/search" element={<Search />} />
                         <Route path="/search/:term" element={<Search />} />
                         <Route
                             path="/movie/details/:movieId"

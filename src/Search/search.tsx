@@ -30,7 +30,10 @@ export default function Search() {
 
     return (
         <div>
-            <h2 className="m-3">Search results for {term}</h2>
+            {results.length == 0 && <h2 className="m-3">No results found </h2>}
+            {results.length != 0 && (
+                <h2 className="m-3">Search results for {term}</h2>
+            )}
             <MoviesList movies={results} />
         </div>
     );

@@ -25,6 +25,11 @@ export default function Home() {
 
         const movies = await client.getRecommendedMovies(externalMovieId);
         console.log("recommended", movies);
+        if (!movies.results) {
+            setText("No recommendations found, showing trending movies");
+            getTrending();
+            return;
+        }
         setMovies(movies);
     };
 
@@ -33,7 +38,6 @@ export default function Home() {
             const profile = await updateUser.profile();
 
             if (profile && profile.moviesLiked.length > 0) {
-                console.log("asdasdasdasd");
                 setText(`Recommended movies for ${profile.username}`);
                 getRecommended(profile.moviesLiked[0]);
             }
@@ -53,25 +57,10 @@ export default function Home() {
 
     let [text, setText] = useState("Trending Now");
 
-    console.log(currentUser);
-
     return (
-        <div>
-            {/* {currentUser && (
-                <>
-                    <h3>WELCOME {currentUser.username} </h3>
-                    <Link to="/profile"> go to profile</Link>
-                </>
-            )}
-
-            {!currentUser && (
-                <>
-                    <h3>WELCOME GUEST</h3>
-                    <Link to="/login"> go to login</Link>
-                </>
-            )} */}
-
+        <div className="">
             <h2 className="m-3">{text}</h2>
+
             <MoviesList movies={movies} />
         </div>
     );

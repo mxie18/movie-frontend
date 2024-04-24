@@ -11,39 +11,47 @@ import "./index.css";
 
 export default function Home() {
     let [movies, setMovies] = useState<any>([]);
+    let [shows, setShows] = useState<any>([]);
 
     const dispatch = useDispatch();
 
-    const getTrending = async () => {
+    const getTrendingMovies = async () => {
         const movies = await client.getTrendingMovies();
         setMovies(movies);
     };
 
-    const getRecommended = async (movieId: string) => {
-        const externalMovieId = await client.getExternalMovieID(movieId);
-        console.log("movieId", externalMovieId);
+    const getTrendingShows = async () => {
+        const shows = await client.getTrendingShows();
+        setShows(shows);
+    };
 
+    const getRecommendedMovies = async (movieId: string) => {
+        const externalMovieId = await client.getExternalMovieID(movieId);
         const movies = await client.getRecommendedMovies(externalMovieId);
-        console.log("recommended", movies);
-        if (!movies.results) {
-            setText("No recommendations found, showing trending movies");
-            getTrending();
-            return;
-        }
         setMovies(movies);
+    };
+
+    const getRecommendedShows = async (showId: string) => {
+        const externalShowId = await client.getExternalShowID(showId);
+        const shows = await client.getRecommendedShows(externalShowId);
+        setShows(shows);
     };
 
     const getProfile = async () => {
         try {
             const profile = await updateUser.profile();
-
+            // console.log("hello");
             if (profile && profile.moviesLiked.length > 0) {
-                setText(`Recommended movies for ${profile.username}`);
-                getRecommended(profile.moviesLiked[0]);
+                setMovieText(`Recommended movies for ${profile.username}`);
+                getRecommendedMovies(profile.moviesLiked[0]);
             }
-
+            if (profile && profile.showsLiked.length > 0) {
+                setShowText(`Recommended shows for ${profile.username}`);
+                getRecommendedShows(profile.showsLiked[0]);
+            }
             dispatch(setCurrentUser(profile));
         } catch (error) {
+            console.log("error here");
             console.log(error);
         }
     };
@@ -51,17 +59,25 @@ export default function Home() {
     const { currentUser } = useSelector((state: any) => state.user);
 
     useEffect(() => {
-        getTrending();
+        getTrendingMovies();
+        getTrendingShows();
         getProfile();
     }, []);
 
-    let [text, setText] = useState("Trending Now");
+    let [movieText, setMovieText] = useState("Trending Movies");
+    let [showText, setShowText] = useState("Trending Shows");
 
     return (
         <div className="">
-            <h2 className="m-3">{text}</h2>
+            <h3 className="title-sec">{movieText}</h3>
+            <div className="show-row">
+                <MoviesList type="movie" movies={movies} />
+            </div>
 
-            <MoviesList movies={movies} />
+            <h3 className="title-sec">{showText}</h3>
+            <div className="show-row">
+                <MoviesList type="show" movies={shows} />
+            </div>
         </div>
     );
 }

@@ -57,7 +57,7 @@ export default function Nav() {
                             outline: "none",
                         }}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search for movies..."
+                        placeholder="Search for movies/shows..."
                     />
                     <button
                         className="btn button-style"

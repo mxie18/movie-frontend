@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
 
-export default function MoviesList({ movies }: { movies: any[] }) {
+export default function MoviesList({
+    movies,
+    type,
+}: {
+    movies: any[];
+    type: string;
+}) {
     return (
-        <div className="d-flex flex-wrap">
+        <>
             {movies.map((movie: any) => (
                 <Link
-                    to={`/movie/details/${movie.id}`}
+                    to={
+                        type == "show"
+                            ? `/shows/details/${movie.id}`
+                            : `/movie/details/${movie.id}`
+                    }
                     style={{ textDecoration: "none", color: "white" }}
                     className="movie-card-container"
                 >
@@ -13,9 +23,8 @@ export default function MoviesList({ movies }: { movies: any[] }) {
                         <div
                             className="movie-text"
                             style={{ fontSize: 18, fontWeight: 500 }}
-                            title={movie.title}
                         >
-                            {movie.title}
+                            {type == "show" ? movie.name : movie.title}
                         </div>
 
                         <img
@@ -24,6 +33,6 @@ export default function MoviesList({ movies }: { movies: any[] }) {
                     </div>
                 </Link>
             ))}
-        </div>
+        </>
     );
 }

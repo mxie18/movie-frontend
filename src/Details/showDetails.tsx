@@ -8,46 +8,42 @@ import { AiFillLike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
 import toast from "react-hot-toast";
 
-export default function Details() {
-    const { movieId } = useParams();
-    const [movie, setMovie] = useState<any>({});
+export default function ShowDetails() {
+    const { showId } = useParams();
+    const [show, setShow] = useState<any>({});
     const [users, setUsers] = useState<any>([]);
-
-    const dispatch = useDispatch();
 
     const { currentUser } = useSelector((state: any) => state.user);
 
     const [pressLike, setPressLike] = useState(false);
 
     const findDetails = async (id: string) => {
-        const movie = await client.getMovieDetails(id);
-        setMovie(movie);
+        const show = await client.getShowDetails(id);
+        setShow(show);
     };
 
-    const findUsersWhoLiked = async (movieId: string) => {
-        const users = await client.findUsersWhoLikedMovie(movieId);
+    const findUsersWhoLiked = async (showId: string) => {
+        const users = await client.findUsersWhoLikedShow(showId);
         setUsers(users);
     };
 
     useEffect(() => {
-        if (movieId) {
-            findDetails(movieId);
-            findUsersWhoLiked(movieId);
+        if (showId) {
+            findDetails(showId);
+            findUsersWhoLiked(showId);
 
             if (users.some((user: any) => user._id == currentUser._id)) {
                 setPressLike(true);
             }
         }
-    }, [movieId, users.length]);
-
-    console.log("movie", movie);
+    }, [showId, users.length]);
 
     return (
         <div className="m-3 d-flex justify-content-center">
             <div className="d-flex main-container">
                 <img
                     style={{ borderRadius: 10 }}
-                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
                 />
 
                 {currentUser && (
@@ -60,13 +56,13 @@ export default function Details() {
                                     fontWeight: 500,
                                 }}
                                 onClick={async () => {
-                                    await client.userLikesMovie({
-                                        movieId: movie.id,
-                                        name: movie.title,
+                                    await client.userLikesShow({
+                                        showId: show.id,
+                                        name: show.name,
                                     });
-                                    toast.success("Movie Liked!");
+                                    toast.success("Show Liked!");
                                     setPressLike(true);
-                                    findUsersWhoLiked(movie.id);
+                                    findUsersWhoLiked(show.id);
                                 }}
                             >
                                 Like
@@ -86,10 +82,10 @@ export default function Details() {
                                 }}
                                 className="btn button-style d-flex align-items-center overlay"
                                 onClick={async () => {
-                                    await client.userUnlikesMovie(movie.id);
-                                    toast.success("Movie Unliked!");
+                                    await client.userUnlikesShow(show.id);
+                                    toast.success("Show Unliked!");
                                     setPressLike(false);
-                                    findUsersWhoLiked(movie.id);
+                                    findUsersWhoLiked(show.id);
                                 }}
                             >
                                 Unlike
@@ -104,11 +100,11 @@ export default function Details() {
                     </>
                 )}
 
-                {movie && movie.revenue != undefined && (
+                {show && show.genres && (
                     <div className="movie-info">
-                        <h1>{movie.original_title}</h1>
+                        <h1>{show.original_name}</h1>
                         <hr />
-                        {movie.overview}
+                        {show.overview}
 
                         <table
                             className="table table-dark table-responsive details-table"
@@ -116,32 +112,32 @@ export default function Details() {
                         >
                             <tbody>
                                 <tr>
-                                    <td>Budget</td>
-                                    <td>${movie.budget.toLocaleString()}</td>
+                                    <td>First Air Date</td>
+                                    <td>{show.first_air_date}</td>
                                 </tr>
                                 <tr>
-                                    <td>Revenue</td>
-                                    <td>${movie.revenue.toLocaleString()}</td>
+                                    <td>Number of Seasons</td>
+                                    <td>{show.number_of_seasons}</td>
                                 </tr>
                                 <tr>
-                                    <td>Movie Runtime</td>
-                                    <td>{movie.runtime} minutes</td>
+                                    <td>Number of Episodes</td>
+                                    <td>{show.number_of_episodes}</td>
                                 </tr>
                                 <tr>
                                     <td>Main Genre</td>
-                                    <td>{movie.genres[0].name} </td>
+                                    <td>{show.genres[0].name} </td>
                                 </tr>
                                 <tr>
                                     <td>Origin Country</td>
-                                    <td>{movie.origin_country} </td>
-                                </tr>
-                                <tr>
-                                    <td>Release Date</td>
-                                    <td>{movie.release_date} </td>
+                                    <td>{show.origin_country} </td>
                                 </tr>
                                 <tr>
                                     <td>Vote Average</td>
-                                    <td>{movie.vote_average} / 10 </td>
+                                    <td>{show.vote_average} / 10 </td>
+                                </tr>
+                                <tr>
+                                    <td>Show Status</td>
+                                    <td>{show.status} </td>
                                 </tr>
                             </tbody>
                         </table>

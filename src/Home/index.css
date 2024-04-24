@@ -1,7 +1,7 @@
-/* .movie-card-container:hover {
+.movie-card-container:hover {
     cursor: pointer;
     transform: scale(1.05);
-} */
+}
 
 .movie-text {
     white-space: nowrap;
@@ -9,7 +9,19 @@
     text-overflow: ellipsis;
 }
 
-/* .movie-row > .row {
+.show-row {
+    display: flex;
     overflow-x: auto;
-    flex-wrap: nowrap;
-} */
+    overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit browsers */
+}
+
+.title-sec {
+    margin-top: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 0;
+}

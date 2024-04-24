@@ -47,7 +47,16 @@ export const deleteUser = async (user: any) => {
 };
 
 export const findMoviesLikedByUser = async (userId: string) => {
-    const response = await axiosWithCreds.get(`${USERS_API}/${userId}/likes`);
+    const response = await axiosWithCreds.get(
+        `${USERS_API}/${userId}/movies/likes`
+    );
+    return response.data;
+};
+
+export const findShowsLikedByUser = async (userId: string) => {
+    const response = await axiosWithCreds.get(
+        `${USERS_API}/${userId}/shows/likes`
+    );
     return response.data;
 };
 

@@ -8,3 +8,10 @@ export const searchMovies = async (query: string) => {
     );
     return response.data.results;
 };
+
+export const searchShows = async (query: string) => {
+    const response = await axios.get(
+        `${MOVIEDB_API}/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${query}`
+    );
+    return response.data.results;
+};

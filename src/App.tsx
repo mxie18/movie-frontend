@@ -25,6 +25,7 @@ import Admin from "./Account/admin";
 import Nav from "./Navigation/nav";
 import Users from "./Users/users";
 import { Toaster } from "react-hot-toast";
+import ShowDetails from "./Details/showDetails";
 
 function App() {
     return (
@@ -55,6 +56,10 @@ function App() {
                         <Route
                             path="/movie/details/:movieId"
                             element={<Details />}
+                        />
+                        <Route
+                            path="/shows/details/:showId"
+                            element={<ShowDetails />}
                         />
                     </Routes>
                 </HashRouter>

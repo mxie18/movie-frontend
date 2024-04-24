@@ -23,6 +23,8 @@ export default function Profile() {
 
     const [liked, setLiked] = useState([]);
 
+    const [showsLiked, setShowsLiked] = useState([]);
+
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
 
@@ -30,9 +32,17 @@ export default function Profile() {
 
     const { currentUser } = useSelector((state: any) => state.user);
 
+    console.log(currentUser);
+    console.log(showsLiked, liked);
+
     const findLiked = async (userId: string) => {
         const movies = await client.findMoviesLikedByUser(userId);
         setLiked(movies);
+    };
+
+    const findShowsLiked = async (userId: string) => {
+        const shows = await client.findShowsLikedByUser(userId);
+        setShowsLiked(shows);
     };
 
     const findFollowers = async (userId: string) => {
@@ -82,6 +92,7 @@ export default function Profile() {
                 dispatch(setCurrentUser(p));
             }
             findLiked(p._id);
+            findShowsLiked(p._id);
             findFollowers(p._id);
             findFollowing(p._id);
             setProfile(p);
@@ -438,7 +449,7 @@ export default function Profile() {
                             >
                                 {liked.length}
                             </span>
-                            Movie(s) Liked
+                            Movies Liked
                         </span>
 
                         {liked && liked.length > 0 && (
@@ -453,6 +464,47 @@ export default function Profile() {
                                         }}
                                     >
                                         {movie.name}
+                                    </Link>
+                                ))}
+                            </>
+                        )}
+                    </div>
+                    <div
+                        className="vr"
+                        style={{
+                            width: 1,
+                            backgroundColor: "white",
+                            opacity: 1,
+                            marginLeft: 10,
+                            marginRight: 10,
+                        }}
+                    ></div>
+                    <div style={{}} className="follow">
+                        <span
+                            style={{ fontSize: 20, fontWeight: 500 }}
+                            className=""
+                        >
+                            <span
+                                className="follow-nums"
+                                style={{ marginRight: 10 }}
+                            >
+                                {showsLiked.length}
+                            </span>
+                            Shows Liked
+                        </span>
+
+                        {showsLiked && showsLiked.length > 0 && (
+                            <>
+                                {showsLiked.map((show: any) => (
+                                    <Link
+                                        to={`/shows/details/${show.showId}`}
+                                        className="btn btn-primary"
+                                        style={{
+                                            fontWeight: 500,
+                                            marginTop: 10,
+                                        }}
+                                    >
+                                        {show.name}
                                     </Link>
                                 ))}
                             </>

@@ -46,7 +46,11 @@ export default function Details() {
         <div className="m-3 d-flex justify-content-center">
             <div className="d-flex main-container">
                 <img
-                    style={{ borderRadius: 10 }}
+                    style={{
+                        borderRadius: 10,
+                        width: "50%",
+                        objectFit: "cover",
+                    }}
                     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 />
 
@@ -109,7 +113,6 @@ export default function Details() {
                         <h1>{movie.original_title}</h1>
                         <hr />
                         {movie.overview}
-
                         <table
                             className="table table-dark table-responsive details-table"
                             style={{ marginTop: 30 }}
@@ -145,7 +148,6 @@ export default function Details() {
                                 </tr>
                             </tbody>
                         </table>
-
                         {users && users.length > 0 && (
                             <>
                                 <h4 style={{ marginTop: 10 }}>Liked By</h4>
@@ -159,6 +161,7 @@ export default function Details() {
                                                     fontWeight: 500,
                                                     fontSize: 16,
                                                     marginRight: 10,
+                                                    marginBottom: 15,
                                                 }}
                                             >
                                                 {user.username}

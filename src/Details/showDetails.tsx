@@ -42,7 +42,11 @@ export default function ShowDetails() {
         <div className="m-3 d-flex justify-content-center">
             <div className="d-flex main-container">
                 <img
-                    style={{ borderRadius: 10 }}
+                    style={{
+                        borderRadius: 10,
+                        width: "50%",
+                        objectFit: "cover",
+                    }}
                     src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
                 />
 

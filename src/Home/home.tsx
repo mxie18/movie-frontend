@@ -59,6 +59,8 @@ export default function Home() {
     const { currentUser } = useSelector((state: any) => state.user);
 
     useEffect(() => {
+        // document.body.style.overflow = "hidden";
+
         getTrendingMovies();
         getTrendingShows();
         getProfile();
@@ -68,7 +70,7 @@ export default function Home() {
     let [showText, setShowText] = useState("Trending Shows");
 
     return (
-        <div className="">
+        <div className="home">
             <h3 className="title-sec">{movieText}</h3>
             <div className="show-row">
                 <MoviesList type="movie" movies={movies} />

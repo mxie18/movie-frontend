@@ -39,19 +39,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .follow {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .main-profile-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
 }
 
 .top-container {
@@ -59,4 +61,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.stats {
+    flex-direction: column;
 }

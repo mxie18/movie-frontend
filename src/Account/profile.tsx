@@ -67,18 +67,21 @@ export default function Profile() {
     const update = async () => {
         console.log("profile", profile);
         await client.updateUser(profile);
+        dispatch(setCurrentUser(profile));
         toast.success("Profile updated!");
     };
 
     const follow = async (user: any) => {
         await client.followUser(user);
         setPressFollow(true);
+        toast.success("User followed!");
         fetchProfile();
     };
 
     const unfollow = async (user: any) => {
         await client.unfollowUser(user);
         setPressFollow(false);
+        toast.success("User unfollowed!");
         fetchProfile();
     };
 
@@ -117,7 +120,7 @@ export default function Profile() {
     }, [userId, followers.length]);
 
     return (
-        <div className="m-3 top-level">
+        <div className="m-3 top-level" style={{ height: "100%" }}>
             <div className="profile-container">
                 <div style={{ marginBottom: 30 }} className="top-container">
                     {userId && <h2>{profile.username}'s Profile</h2>}
@@ -345,21 +348,21 @@ export default function Profile() {
                         }}
                     ></div>
 
-                    <div style={{}} className="follow">
-                        <span
-                            style={{ fontSize: 20, fontWeight: 500 }}
-                            className=""
-                        >
+                    <div className="d-flex stats">
+                        <div style={{}} className="d-flex align-items-center">
                             <span
-                                className="follow-nums"
-                                style={{ marginRight: 10 }}
+                                style={{ fontSize: 20, fontWeight: 500 }}
+                                className=""
                             >
-                                {following.length}
+                                <span
+                                    className="follow-nums"
+                                    style={{ marginRight: 10 }}
+                                >
+                                    {following.length}
+                                </span>
+                                Following
                             </span>
-                            Following
-                        </span>
 
-                        <div className="follow">
                             {following && following.length > 0 && (
                                 <>
                                     {following.map((user: any) => (
@@ -368,8 +371,8 @@ export default function Profile() {
                                                 to={`/profile/${user._id}`}
                                                 className="btn btn-secondary"
                                                 style={{
-                                                    marginTop: 10,
                                                     fontWeight: 500,
+                                                    marginLeft: 15,
                                                 }}
                                             >
                                                 {user.username}
@@ -379,141 +382,115 @@ export default function Profile() {
                                 </>
                             )}
                         </div>
-                    </div>
 
-                    <div
-                        className="vr"
-                        style={{
-                            width: 1,
-                            backgroundColor: "white",
-                            opacity: 1,
-                            marginLeft: 10,
-                            marginRight: 10,
-                        }}
-                    ></div>
+                        <hr style={{ color: "white", opacity: 1 }} />
 
-                    <div style={{}} className="follow">
-                        <span
-                            style={{ fontSize: 20, fontWeight: 500 }}
-                            className=""
-                        >
+                        <div style={{}} className="d-flex align-items-center">
                             <span
-                                className="follow-nums"
-                                style={{ marginRight: 10 }}
+                                style={{ fontSize: 20, fontWeight: 500 }}
+                                className=""
                             >
-                                {followers.length}
+                                <span
+                                    className="follow-nums"
+                                    style={{ marginRight: 10 }}
+                                >
+                                    {followers.length}
+                                </span>
+                                Followers
                             </span>
-                            Followers
-                        </span>
 
-                        <div className="follow">
-                            {followers && followers.length > 0 && (
+                            <div className="">
+                                {followers && followers.length > 0 && (
+                                    <>
+                                        {followers.map((user: any) => (
+                                            <>
+                                                <Link
+                                                    to={`/profile/${user._id}`}
+                                                    className="btn btn-secondary"
+                                                    style={{
+                                                        marginLeft: 15,
+                                                        fontWeight: 500,
+                                                    }}
+                                                >
+                                                    {user.username}
+                                                </Link>
+                                            </>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <hr style={{ color: "white", opacity: 1 }} />
+
+                        <div style={{}} className="d-flex align-items-center">
+                            <span
+                                style={{ fontSize: 20, fontWeight: 500 }}
+                                className=""
+                            >
+                                <span
+                                    className="follow-nums"
+                                    style={{ marginRight: 10 }}
+                                >
+                                    {liked.length}
+                                </span>
+                                Movies Liked
+                            </span>
+
+                            {liked && liked.length > 0 && (
                                 <>
-                                    {followers.map((user: any) => (
-                                        <>
-                                            <Link
-                                                to={`/profile/${user._id}`}
-                                                className="btn btn-secondary"
-                                                style={{
-                                                    marginTop: 10,
-                                                    fontWeight: 500,
-                                                }}
-                                            >
-                                                {user.username}
-                                            </Link>
-                                        </>
+                                    {liked.map((movie: any) => (
+                                        <Link
+                                            to={`/movie/details/${movie.movieId}`}
+                                            className="btn btn-primary"
+                                            style={{
+                                                fontWeight: 500,
+                                                marginLeft: 15,
+                                            }}
+                                        >
+                                            {movie.name}
+                                        </Link>
                                     ))}
                                 </>
                             )}
                         </div>
-                    </div>
 
-                    <div
-                        className="vr"
-                        style={{
-                            width: 1,
-                            backgroundColor: "white",
-                            opacity: 1,
-                            marginLeft: 10,
-                            marginRight: 10,
-                        }}
-                    ></div>
-                    <div style={{}} className="follow">
-                        <span
-                            style={{ fontSize: 20, fontWeight: 500 }}
-                            className=""
-                        >
+                        <hr style={{ color: "white", opacity: 1 }} />
+
+                        <div style={{}} className="d-flex align-items-center">
                             <span
-                                className="follow-nums"
-                                style={{ marginRight: 10 }}
+                                style={{ fontSize: 20, fontWeight: 500 }}
+                                className=""
                             >
-                                {liked.length}
+                                <span
+                                    className="follow-nums"
+                                    style={{ marginRight: 10 }}
+                                >
+                                    {showsLiked.length}
+                                </span>
+                                Shows Liked
                             </span>
-                            Movies Liked
-                        </span>
 
-                        {liked && liked.length > 0 && (
-                            <>
-                                {liked.map((movie: any) => (
-                                    <Link
-                                        to={`/movie/details/${movie.movieId}`}
-                                        className="btn btn-primary"
-                                        style={{
-                                            fontWeight: 500,
-                                            marginTop: 10,
-                                        }}
-                                    >
-                                        {movie.name}
-                                    </Link>
-                                ))}
-                            </>
-                        )}
-                    </div>
-                    <div
-                        className="vr"
-                        style={{
-                            width: 1,
-                            backgroundColor: "white",
-                            opacity: 1,
-                            marginLeft: 10,
-                            marginRight: 10,
-                        }}
-                    ></div>
-                    <div style={{}} className="follow">
-                        <span
-                            style={{ fontSize: 20, fontWeight: 500 }}
-                            className=""
-                        >
-                            <span
-                                className="follow-nums"
-                                style={{ marginRight: 10 }}
-                            >
-                                {showsLiked.length}
-                            </span>
-                            Shows Liked
-                        </span>
-
-                        {showsLiked && showsLiked.length > 0 && (
-                            <>
-                                {showsLiked.map((show: any) => (
-                                    <Link
-                                        to={`/shows/details/${show.showId}`}
-                                        className="btn btn-primary"
-                                        style={{
-                                            fontWeight: 500,
-                                            marginTop: 10,
-                                        }}
-                                    >
-                                        {show.name}
-                                    </Link>
-                                ))}
-                            </>
-                        )}
+                            {showsLiked && showsLiked.length > 0 && (
+                                <>
+                                    {showsLiked.map((show: any) => (
+                                        <Link
+                                            to={`/shows/details/${show.showId}`}
+                                            className="btn btn-primary"
+                                            style={{
+                                                fontWeight: 500,
+                                                marginLeft: 15,
+                                            }}
+                                        >
+                                            {show.name}
+                                        </Link>
+                                    ))}
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-
-            {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
         </div>
     );
 }

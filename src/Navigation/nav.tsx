@@ -8,112 +8,116 @@ import { useEffect, useState } from "react";
 import * as client from "../Search/client";
 import MoviesList from "../Movies/movies";
 import { HiUserGroup } from "react-icons/hi2";
+import SmallNav from "./smallnav";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function Nav() {
     const { currentUser } = useSelector((state: any) => state.user);
     const { pathname } = useLocation();
 
-    const { term } = useParams();
     const navigate = useNavigate();
 
     const [query, setQuery] = useState("");
-    const [results, setResults] = useState<any>([]);
-
-    const searchMovies = async (query: string) => {
-        const results = await client.searchMovies(query);
-        setResults(results);
-        navigate(`/search/${query}`);
-    };
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
 
     useEffect(() => {
-        if (term) {
-            setQuery(term);
-            searchMovies(term);
-        } else {
+        if (query && pathname == "/home") {
             setQuery("");
-            setResults([]);
         }
-    }, [term]);
+
+        if (pathname.includes("/search")) {
+            setQuery(pathname.split("/").slice(-1)[0]);
+        }
+    }, [pathname, isSmallScreen]);
+
+    window.onresize = () => {
+        setIsSmallScreen(window.innerWidth < 768);
+    };
 
     return (
-        <div className="d-flex nav-container p-3" id="nav">
-            <Link to="/home" className="nav-title" style={{ fontSize: 45 }}>
-                MovieHub
-            </Link>
+        <>
+            {isSmallScreen && <SmallNav query={query} setQuery={setQuery} />}
+            <div className="d-none d-md-flex nav-container p-3" id="nav">
+                <Link to="/home" className="nav-title" style={{ fontSize: 45 }}>
+                    MovieHub
+                </Link>
 
-            {/* <Link to="/home"> Home</Link>
-            <Link to="/community"> Community </Link> */}
-            <div style={{}}>
-                <div
-                    className="input-group"
-                    style={{ height: 40, flexWrap: "nowrap" }}
-                >
-                    <input
-                        value={query}
-                        className="form-control"
-                        style={{
-                            width: 400,
-                            boxShadow: "none",
-                            outline: "none",
-                        }}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search for movies/shows..."
-                    />
-                    <button
-                        className="btn button-style"
-                        onClick={() => searchMovies(query)}
+                <div className="search-box">
+                    <div
+                        className="input-group"
+                        style={{ height: 40, flexWrap: "nowrap" }}
                     >
-                        <FaSearch style={{ fontSize: 20 }} />
-                    </button>
+                        <input
+                            value={query}
+                            className="form-control"
+                            style={{
+                                boxShadow: "none",
+                                outline: "none",
+                            }}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="Search for movies/shows..."
+                        />
+                        <button
+                            className="btn button-style"
+                            onClick={() => navigate(`/search/${query}`)}
+                        >
+                            <FaSearch style={{ fontSize: 20 }} />
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div className="nav-options">
-                <Link
-                    to="/home"
-                    className="btn button-style d-flex align-items-center"
-                    style={{ fontSize: 18, fontWeight: 500 }}
-                >
-                    Home
-                    <FaHome style={{ fontSize: 20, marginLeft: 5 }} />
-                </Link>
-
-                <Link
-                    className="d-flex btn button-style align-items-center"
-                    to="/users"
-                    style={{ fontSize: 18, fontWeight: 500 }}
-                >
-                    Users
-                    <HiUserGroup style={{ fontSize: 20, marginLeft: 5 }} />
-                </Link>
-
-                {currentUser && (
+                <div className="nav-options">
                     <Link
-                        className="d-flex btn button-style align-items-center"
-                        to="/profile"
+                        to="/home"
+                        className="btn button-style d-flex align-items-center"
                         style={{ fontSize: 18, fontWeight: 500 }}
                     >
-                        {currentUser.username}
-                        <FaUserCircle style={{ fontSize: 20, marginLeft: 5 }} />
+                        Home
+                        <FaHome style={{ fontSize: 20, marginLeft: 5 }} />
                     </Link>
-                )}
 
-                {!currentUser && (
-                    <>
+                    <Link
+                        className="d-flex btn button-style align-items-center"
+                        to="/users"
+                        style={{ fontSize: 18, fontWeight: 500 }}
+                    >
+                        Users
+                        <HiUserGroup style={{ fontSize: 20, marginLeft: 5 }} />
+                    </Link>
+
+                    {currentUser && (
                         <Link
-                            to="/login"
-                            className="btn button-style"
-                            style={{
-                                fontSize: 18,
-                                fontWeight: 500,
-                                height: 40,
-                            }}
+                            className="d-flex btn button-style align-items-center"
+                            to="/profile"
+                            style={{ fontSize: 18, fontWeight: 500 }}
                         >
-                            Login / Register
+                            {currentUser.username}
+                            <FaUserCircle
+                                style={{ fontSize: 20, marginLeft: 5 }}
+                            />
                         </Link>
-                    </>
-                )}
+                    )}
+
+                    {!currentUser && (
+                        <>
+                            <Link
+                                to="/login"
+                                className="d-flex align-items-center btn button-style"
+                                style={{
+                                    fontSize: 18,
+                                    fontWeight: 500,
+                                    height: 40,
+                                }}
+                            >
+                                Login
+                                <FaSignInAlt
+                                    style={{ fontSize: 20, marginLeft: 5 }}
+                                />
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -8,6 +8,12 @@
     position: relative;
 }
 
+@media (max-width: 767px) {
+    .main-container {
+        width: 100%; /* Change width to 90% on small screens */
+    }
+}
+
 .movie-info {
     display: flex;
     flex-direction: column;
@@ -31,7 +37,7 @@
 }
 
 .details-table td {
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: 500;
 }
 

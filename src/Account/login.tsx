@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import "./index.css";
 import toast from "react-hot-toast";
-import * as movieClient from "../Details/client";
+import * as movieClient from "../Home/client";
 
 export default function Login() {
     const [user, setUser] = useState({
@@ -27,6 +27,12 @@ export default function Login() {
         }
     };
 
+    const setBackground = async () => {
+        const movies = await movieClient.getTrendingMovies();
+        const random = Math.floor(Math.random() * movies.length);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movies[random].backdrop_path})`;
+    };
+
     const signin = async () => {
         try {
             await client.signin(user);
@@ -41,6 +47,7 @@ export default function Login() {
     const { currentUser } = useSelector((state: any) => state.user);
 
     useEffect(() => {
+        setBackground();
         if (currentUser) {
             navigate("/profile");
         }

@@ -4,11 +4,12 @@
     /* justify-content: center; */
     border: 2px solid white;
     border-radius: 10px;
-    width: 70%;
-    margin-top: 1vh;
+    width: 60%;
+    margin-top: 2vh;
     position: relative;
     background-color: #201e1e;
-    max-height: 80vh;
+    height: 80vh;
+    /* max-height: 80vh; */
     /* padding: 20px; */
 }
 

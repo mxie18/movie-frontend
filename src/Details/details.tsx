@@ -23,7 +23,7 @@ export default function Details() {
 
     const findDetails = async (id: string) => {
         const movie = await client.getMovieDetails(id);
-        // document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`;
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`;
         setMovie(movie);
     };
 
@@ -115,6 +115,7 @@ export default function Details() {
                             overflowX: "auto",
                             margin: 20,
                             paddingRight: 10,
+                            width: "50%",
                         }}
                     >
                         <h1>{movie.original_title}</h1>

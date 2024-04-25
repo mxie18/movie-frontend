@@ -106,7 +106,14 @@ export default function ShowDetails() {
                 )}
 
                 {show && show.genres && (
-                    <div className="movie-info">
+                    <div
+                        style={{
+                            overflowX: "auto",
+                            margin: 20,
+                            paddingRight: 10,
+                            width: "50%",
+                        }}
+                    >
                         <h1>{show.original_name}</h1>
                         <hr />
                         {show.overview}

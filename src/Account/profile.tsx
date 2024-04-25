@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import toast from "react-hot-toast";
 import MoviesList from "../Movies/movies";
+import * as movieClient from "../Home/client";
 
 export default function Profile() {
     const { userId } = useParams();
@@ -104,7 +105,14 @@ export default function Profile() {
         }
     };
 
+    const setBackground = async () => {
+        const movies = await movieClient.getTrendingMovies();
+        const random = Math.floor(Math.random() * movies.length);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movies[random].backdrop_path})`;
+    };
+
     useEffect(() => {
+        setBackground();
         if (currentUser && currentUser._id == userId && userId) {
             navigate("/profile");
         } else {
@@ -423,7 +431,7 @@ export default function Profile() {
 
                         <hr style={{ color: "white", opacity: 1 }} /> */}
 
-                        <div style={{}} className="test text-nowrap">
+                        <div style={{}} className="text-nowrap">
                             <div
                                 style={{
                                     fontSize: 20,
@@ -472,7 +480,7 @@ export default function Profile() {
                             }}
                         ></div>
 
-                        <div style={{}} className="test2 text-nowrap">
+                        <div style={{}} className="text-nowrap">
                             <span
                                 style={{ fontSize: 20, fontWeight: 500 }}
                                 className=""

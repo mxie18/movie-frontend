@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "./index.css";
 import MoviesList from "../Movies/movies";
+import * as movieClient from "../Home/client";
 
 export default function Search() {
     const { term } = useParams();
@@ -16,6 +17,12 @@ export default function Search() {
     const [showResults, setShowResults] = useState<any>([]);
 
     const { pathname } = useLocation();
+
+    const setBackground = async () => {
+        const movies = await movieClient.getTrendingMovies();
+        const random = Math.floor(Math.random() * movies.length);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),url(https://image.tmdb.org/t/p/original/${movies[random].backdrop_path})`;
+    };
 
     const searchMovies = async (query: string) => {
         const results = await client.searchMovies(query);
@@ -30,6 +37,7 @@ export default function Search() {
     };
 
     useEffect(() => {
+        setBackground();
         if (term) {
             setQuery(term);
             searchMovies(term);

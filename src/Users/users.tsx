@@ -4,6 +4,7 @@ import "./index.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import * as movieClient from "../Home/client";
 
 export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
@@ -21,6 +22,12 @@ export default function Users() {
     const fetchUsers = async () => {
         const users = await client.findAllUsers();
         setUsers(users);
+    };
+
+    const setBackground = async () => {
+        const movies = await movieClient.getTrendingMovies();
+        const random = Math.floor(Math.random() * movies.length);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movies[random].backdrop_path})`;
     };
 
     const { currentUser } = useSelector((state: any) => state.user);
@@ -54,6 +61,7 @@ export default function Users() {
     };
 
     useEffect(() => {
+        setBackground();
         fetchUsers();
 
         console.log("currentUser", currentUser);

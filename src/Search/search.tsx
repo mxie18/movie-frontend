@@ -43,15 +43,18 @@ export default function Search() {
 
     return (
         <div>
-            <h2 className="title-sec">Search results for {term}...</h2>
             {results.length == 0 && <h2 className="m-3">No results found </h2>}
-            {results.length != 0 && <h3 className="title-sec">Movies</h3>}
+            {results.length != 0 && (
+                <h4 className="title-sec">Movie results for "{term}"</h4>
+            )}
             <div className="show-row">
                 <MoviesList type="movie" movies={results} />
             </div>
-            {results.length != 0 && <h3 className="title-sec">Shows</h3>}
+            {results.length != 0 && (
+                <h4 className="title-sec">Show results for "{term}"</h4>
+            )}
             <div className="show-row">
-                <MoviesList type="movie" movies={showResults} />
+                <MoviesList type="show" movies={showResults} />
             </div>
         </div>
     );

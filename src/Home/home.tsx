@@ -17,6 +17,8 @@ export default function Home() {
 
     const getTrendingMovies = async () => {
         const movies = await client.getTrendingMovies();
+        const random = Math.floor(Math.random() * movies.length);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),url(https://image.tmdb.org/t/p/original/${movies[random].backdrop_path})`;
         setMovies(movies);
     };
 
@@ -56,8 +58,6 @@ export default function Home() {
         }
     };
 
-    const { currentUser } = useSelector((state: any) => state.user);
-
     useEffect(() => {
         // document.body.style.overflow = "hidden";
 
@@ -71,12 +71,12 @@ export default function Home() {
 
     return (
         <div className="home">
-            <h3 className="title-sec">{movieText}</h3>
+            <h4 className="title-sec">{movieText}</h4>
             <div className="show-row">
                 <MoviesList type="movie" movies={movies} />
             </div>
 
-            <h3 className="title-sec">{showText}</h3>
+            <h4 className="title-sec">{showText}</h4>
             <div className="show-row">
                 <MoviesList type="show" movies={shows} />
             </div>

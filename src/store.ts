@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import userReducer from "./Account/reducer";
+import imageReducer from "./Account/reducer";
 
 const store = configureStore({
     reducer: {

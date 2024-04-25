@@ -19,6 +19,7 @@ export default function ShowDetails() {
 
     const findDetails = async (id: string) => {
         const show = await client.getShowDetails(id);
+        document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${show.backdrop_path})`;
         setShow(show);
     };
 

@@ -17,10 +17,13 @@ export default function Details() {
 
     const { currentUser } = useSelector((state: any) => state.user);
 
+    console.log("CURRENT", currentUser);
+
     const [pressLike, setPressLike] = useState(false);
 
     const findDetails = async (id: string) => {
         const movie = await client.getMovieDetails(id);
+        // document.body.style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`;
         setMovie(movie);
     };
 
@@ -39,8 +42,6 @@ export default function Details() {
             }
         }
     }, [movieId, users.length]);
-
-    console.log("movie", movie);
 
     return (
         <div className="m-3 d-flex justify-content-center">
@@ -109,7 +110,13 @@ export default function Details() {
                 )}
 
                 {movie && movie.revenue != undefined && (
-                    <div className="movie-info">
+                    <div
+                        style={{
+                            overflowX: "auto",
+                            margin: 20,
+                            paddingRight: 10,
+                        }}
+                    >
                         <h1>{movie.original_title}</h1>
                         <hr />
                         {movie.overview}

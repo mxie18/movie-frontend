@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import "./index.css";
 import toast from "react-hot-toast";
+import * as movieClient from "../Details/client";
 
 export default function Login() {
     const [user, setUser] = useState({
@@ -46,47 +47,49 @@ export default function Login() {
     }, []);
 
     return (
-        <div className="login-container">
-            <h1>Login</h1>
-            <input
-                className="form-control"
-                value={user.username}
-                style={{}}
-                placeholder="Enter username..."
-                onChange={(e) =>
-                    setUser({
-                        ...user,
-                        username: e.target.value,
-                    })
-                }
-            />
-            <input
-                className="form-control"
-                value={user.password}
-                style={{}}
-                placeholder="Enter password..."
-                onChange={(e) =>
-                    setUser({
-                        ...user,
-                        password: e.target.value,
-                    })
-                }
-            />
+        <div className="m-3 d-flex justify-content-center image">
+            <div className="login-container" style={{ paddingBottom: 20 }}>
+                <h1>Login</h1>
+                <input
+                    className="form-control"
+                    value={user.username}
+                    style={{}}
+                    placeholder="Enter username..."
+                    onChange={(e) =>
+                        setUser({
+                            ...user,
+                            username: e.target.value,
+                        })
+                    }
+                />
+                <input
+                    className="form-control"
+                    value={user.password}
+                    style={{}}
+                    placeholder="Enter password..."
+                    onChange={(e) =>
+                        setUser({
+                            ...user,
+                            password: e.target.value,
+                        })
+                    }
+                />
 
-            <button
-                className="btn button-style"
-                onClick={signin}
-                style={{ fontWeight: 500 }}
-            >
-                Sign In
-            </button>
-            <button
-                className="btn button-style"
-                onClick={register}
-                style={{ fontWeight: 500 }}
-            >
-                Register
-            </button>
+                <button
+                    className="btn button-style"
+                    onClick={signin}
+                    style={{ fontWeight: 500 }}
+                >
+                    Sign In
+                </button>
+                <button
+                    className="btn button-style"
+                    onClick={register}
+                    style={{ fontWeight: 500 }}
+                >
+                    Register
+                </button>
+            </div>
         </div>
     );
 }

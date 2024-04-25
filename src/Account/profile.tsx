@@ -32,9 +32,6 @@ export default function Profile() {
 
     const { currentUser } = useSelector((state: any) => state.user);
 
-    console.log(currentUser);
-    console.log(showsLiked, liked);
-
     const findLiked = async (userId: string) => {
         const movies = await client.findMoviesLikedByUser(userId);
         setLiked(movies);
@@ -120,9 +117,12 @@ export default function Profile() {
     }, [userId, followers.length]);
 
     return (
-        <div className="m-3 top-level" style={{ height: "100%" }}>
-            <div className="profile-container">
-                <div style={{ marginBottom: 30 }} className="top-container">
+        <div
+            className="m-3 top-level d-flex justify-content-center "
+            style={{ height: "100%" }}
+        >
+            <div className="profile-container" style={{ overflowX: "auto" }}>
+                <div style={{}} className="top-container">
                     {userId && <h2>{profile.username}'s Profile</h2>}
                     {!userId && <h2>My Profile</h2>}
 
@@ -349,7 +349,7 @@ export default function Profile() {
                     ></div>
 
                     <div className="d-flex stats">
-                        <div style={{}} className="d-flex align-items-center">
+                        {/* <div style={{}} className="d-flex align-items-center">
                             <span
                                 style={{ fontSize: 20, fontWeight: 500 }}
                                 className=""
@@ -421,55 +421,71 @@ export default function Profile() {
                             </div>
                         </div>
 
-                        <hr style={{ color: "white", opacity: 1 }} />
+                        <hr style={{ color: "white", opacity: 1 }} /> */}
 
-                        <div style={{}} className="d-flex align-items-center">
-                            <span
-                                style={{ fontSize: 20, fontWeight: 500 }}
+                        <div style={{}} className="test text-nowrap">
+                            <div
+                                style={{
+                                    fontSize: 20,
+                                    fontWeight: 500,
+                                }}
                                 className=""
                             >
                                 <span
                                     className="follow-nums"
-                                    style={{ marginRight: 10 }}
+                                    style={{ marginRight: 8 }}
                                 >
                                     {liked.length}
                                 </span>
                                 Movies Liked
-                            </span>
+                            </div>
 
-                            {liked && liked.length > 0 && (
-                                <>
-                                    {liked.map((movie: any) => (
-                                        <Link
-                                            to={`/movie/details/${movie.movieId}`}
-                                            className="btn btn-primary"
-                                            style={{
-                                                fontWeight: 500,
-                                                marginLeft: 15,
-                                            }}
-                                        >
-                                            {movie.name}
-                                        </Link>
-                                    ))}
-                                </>
-                            )}
+                            <hr style={{ color: "white", opacity: 1 }} />
+                            <div className="test3">
+                                {liked && liked.length > 0 && (
+                                    <>
+                                        {liked.map((movie: any) => (
+                                            <Link
+                                                to={`/movie/details/${movie.movieId}`}
+                                                className="btn btn-primary"
+                                                style={{
+                                                    fontWeight: 500,
+                                                    marginBottom: 10,
+                                                }}
+                                            >
+                                                {movie.name}
+                                            </Link>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
                         </div>
 
-                        <hr style={{ color: "white", opacity: 1 }} />
+                        <div
+                            className="vr"
+                            style={{
+                                width: 1,
+                                backgroundColor: "white",
+                                opacity: 1,
+                                marginLeft: 10,
+                                marginRight: 10,
+                            }}
+                        ></div>
 
-                        <div style={{}} className="d-flex align-items-center">
+                        <div style={{}} className="test2 text-nowrap">
                             <span
                                 style={{ fontSize: 20, fontWeight: 500 }}
                                 className=""
                             >
                                 <span
                                     className="follow-nums"
-                                    style={{ marginRight: 10 }}
+                                    style={{ marginRight: 8 }}
                                 >
                                     {showsLiked.length}
                                 </span>
                                 Shows Liked
                             </span>
+                            <hr style={{ color: "white", opacity: 1 }} />
 
                             {showsLiked && showsLiked.length > 0 && (
                                 <>

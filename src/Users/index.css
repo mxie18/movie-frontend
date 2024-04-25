@@ -17,3 +17,16 @@
 td > input {
     text-align: center;
 }
+
+.table-container {
+    /* padding: 20px; */
+    /* height: 50vh; */
+}
+
+.wrapper {
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: #201e1e;
+    margin-top: 3vh;
+    padding: 20px;
+}

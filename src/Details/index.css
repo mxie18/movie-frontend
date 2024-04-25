@@ -5,22 +5,17 @@
     border: 2px solid white;
     border-radius: 10px;
     width: 70%;
+    margin-top: 1vh;
     position: relative;
+    background-color: #201e1e;
+    max-height: 80vh;
+    /* padding: 20px; */
 }
 
 @media (max-width: 767px) {
     .main-container {
         width: 100%; /* Change width to 90% on small screens */
     }
-}
-
-.movie-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 20px;
 }
 
 .overlay {

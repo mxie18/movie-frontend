@@ -15,7 +15,7 @@
     overflow-y: hidden;
 }
 
-::-webkit-scrollbar {
+.show-row::-webkit-scrollbar {
     display: none; /* Hide scrollbar in WebKit browsers */
 }
 

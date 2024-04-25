@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import * as movieClient from "../Home/client";
 
 export default function Login() {
+    console.log(process.env);
     const [user, setUser] = useState({
         username: "",
         password: "",

@@ -99,7 +99,7 @@ export default function SmallNav({
                             <>
                                 <Link
                                     to="/login"
-                                    className="btn button-style"
+                                    className="btn button-style d-flex align-items-center"
                                     style={{
                                         height: 36,
                                     }}

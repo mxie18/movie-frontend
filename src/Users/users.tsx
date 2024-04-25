@@ -83,7 +83,7 @@ export default function Users() {
         if (currentUser && currentUser.role === "ADMIN") {
             setIsAdmin(true);
         }
-    }, [currentUser]);
+    }, [currentUser, users.length]);
 
     return (
         <div className="m-3">
@@ -107,6 +107,9 @@ export default function Users() {
                                 <th scope="">Following</th>
                                 <th scope="" className="text-nowrap">
                                     Movies Liked
+                                </th>
+                                <th scope="" className="text-nowrap">
+                                    Shows Liked
                                 </th>
                                 <th style={{ width: 1 }}>&nbsp;</th>
                                 {isAdmin && (
@@ -163,6 +166,7 @@ export default function Users() {
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td colSpan={2}>
                                         <button
                                             className="btn btn-primary add"
@@ -198,6 +202,7 @@ export default function Users() {
                                     <td>{user.followers.length}</td>
                                     <td>{user.following.length}</td>
                                     <td>{user.moviesLiked.length}</td>
+                                    <td>{user.showsLiked.length}</td>
                                     <td>
                                         <Link
                                             to={`/profile/${user._id}`}

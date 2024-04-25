@@ -4,7 +4,7 @@
     /* justify-content: center; */
     border: 2px solid white;
     border-radius: 10px;
-    width: 60%;
+    width: 65%;
     margin-top: 2vh;
     position: relative;
     background-color: #201e1e;
@@ -15,7 +15,7 @@
 
 @media (max-width: 767px) {
     .main-container {
-        width: 100%; /* Change width to 90% on small screens */
+        width: 100%;
     }
 }
 

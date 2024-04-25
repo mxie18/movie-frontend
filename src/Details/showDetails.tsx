@@ -167,6 +167,7 @@ export default function ShowDetails() {
                                                     fontWeight: 500,
                                                     fontSize: 16,
                                                     marginRight: 10,
+                                                    marginBottom: 10,
                                                 }}
                                             >
                                                 {user.username}

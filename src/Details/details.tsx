@@ -169,7 +169,7 @@ export default function Details() {
                                                     fontWeight: 500,
                                                     fontSize: 16,
                                                     marginRight: 10,
-                                                    marginBottom: 15,
+                                                    marginBottom: 10,
                                                 }}
                                             >
                                                 {user.username}

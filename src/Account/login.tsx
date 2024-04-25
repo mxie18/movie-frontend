@@ -70,6 +70,7 @@ export default function Login() {
                     }
                 />
                 <input
+                    type="password"
                     className="form-control"
                     value={user.password}
                     style={{}}

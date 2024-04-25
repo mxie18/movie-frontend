@@ -17,11 +17,9 @@ import Login from "./Account/login";
 import Search from "./Search/search";
 import Details from "./Details/details";
 import Profile from "./Account/profile";
-import Account from "./Account/account";
 import { Provider } from "react-redux";
 import store from "./store";
 import CurrentUser from "./Account/CurrentUser";
-import Admin from "./Account/admin";
 import Nav from "./Navigation/nav";
 import Users from "./Users/users";
 import { Toaster } from "react-hot-toast";
@@ -43,11 +41,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<Home />} />
-                        {/* <Route path="/login" element={<Login />} /> */}
-                        {/* <Route path="/account/*" element={<Account />} /> */}
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/login" element={<Login />} />
-                        {/* <Route path="/admin" element={<Admin />} /> */}
                         <Route path="/profile/:userId" element={<Profile />} />
                         <Route path="/users" element={<Users />} />
 

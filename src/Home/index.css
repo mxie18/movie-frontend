@@ -16,7 +16,7 @@
 }
 
 .show-row::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in WebKit browsers */
+    display: none;
 }
 
 .title-sec {

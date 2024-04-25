@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import * as client from "../Account/client";
 import "./index.css";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import * as movieClient from "../Home/client";
+import * as accountClient from "../Account/client";
+import { setCurrentUser } from "../Account/reducer";
 
 export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
@@ -18,6 +20,9 @@ export default function Users() {
     });
 
     console.log(user);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const fetchUsers = async () => {
         const users = await client.findAllUsers();
@@ -39,15 +44,24 @@ export default function Users() {
             await client.deleteUser(user);
             setUsers(users.filter((u: any) => u._id !== user._id));
             toast.success("User deleted!");
+            if (currentUser._id === user._id) {
+                signout();
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
+    const signout = async () => {
+        await accountClient.signout();
+        dispatch(setCurrentUser(null));
+        navigate("/login");
+    };
+
     const createUser = async () => {
         try {
             const newUser = await client.createUser(user);
-            setUsers([newUser, ...users]);
+            setUsers([...users, newUser]);
             toast.success("User created!");
         } catch (err) {
             toast.error("User creation failed, check username!");
@@ -146,42 +160,9 @@ export default function Users() {
                                             <option value="ADMIN">ADMIN</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <input
-                                            className="form-control"
-                                            value={user.followers.length}
-                                            onChange={(e) =>
-                                                setUser({
-                                                    ...user,
-                                                    followers: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            className="form-control"
-                                            value={user.following.length}
-                                            onChange={(e) =>
-                                                setUser({
-                                                    ...user,
-                                                    following: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            className="form-control"
-                                            value={user.moviesLiked.length}
-                                            onChange={(e) =>
-                                                setUser({
-                                                    ...user,
-                                                    moviesLiked: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td colSpan={2}>
                                         <button
                                             className="btn btn-primary add"

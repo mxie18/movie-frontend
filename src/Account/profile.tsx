@@ -141,7 +141,10 @@ export default function Profile() {
                                 {userId && (
                                     <h2
                                         className="text-nowrap"
-                                        style={{ marginBottom: 0 }}
+                                        style={{
+                                            marginBottom: 10,
+                                            marginRight: 15,
+                                        }}
                                     >
                                         {profile.username}'s Profile
                                     </h2>
@@ -149,7 +152,7 @@ export default function Profile() {
                                 {!userId && (
                                     <h2
                                         style={{
-                                            marginBottom: 0,
+                                            marginBottom: 10,
                                             marginRight: 15,
                                         }}
                                         className="text-nowrap"
@@ -157,7 +160,7 @@ export default function Profile() {
                                         My Profile
                                     </h2>
                                 )}
-                                <div style={{ marginLeft: 15 }}>
+                                <div style={{}}>
                                     {!isOwnUser && (
                                         <>
                                             {!pressFollow && (

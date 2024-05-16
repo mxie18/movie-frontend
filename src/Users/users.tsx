@@ -99,7 +99,7 @@ export default function Users() {
                             <tr className="table-light">
                                 <th scope="">#</th>
                                 <th scope="">Username</th>
-                                <th scope="">Password</th>
+                                {isAdmin && <th scope="">Password</th>}
                                 <th scope="" style={{ width: 120 }}>
                                     Role
                                 </th>
@@ -197,7 +197,7 @@ export default function Users() {
                                 <tr key={user._id}>
                                     <td>{index + 1}</td>
                                     <td>{user.username}</td>
-                                    <td>{user.password}</td>
+                                    {isAdmin && <td>{user.password}</td>}
                                     <td>{user.role}</td>
                                     <td>{user.followers.length}</td>
                                     <td>{user.following.length}</td>

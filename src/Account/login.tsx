@@ -98,6 +98,9 @@ export default function Login() {
                 >
                     Register
                 </button>
+                <h6 style={{ fontSize: 12, textAlign: "center" }}>
+                    *Refrain from entering sensitive data
+                </h6>
             </div>
         </div>
     );

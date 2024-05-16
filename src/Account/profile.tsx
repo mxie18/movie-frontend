@@ -328,85 +328,90 @@ export default function Profile() {
                                     </div>
                                 )}
 
-                                <div className="d-flex role-container">
-                                    <label
-                                        style={{
-                                            fontSize: 20,
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Role
-                                    </label>
-
-                                    <span
-                                        className="text-nowrap"
-                                        style={{ marginLeft: 10 }}
-                                    >
-                                        <input
-                                            type="radio"
-                                            id="user"
-                                            name="role"
-                                            value="USER"
-                                            checked={profile.role == "USER"}
-                                            disabled={
-                                                profile.role == "ADMIN" &&
-                                                userId
-                                                    ? true
-                                                    : false
-                                            }
-                                            onChange={(e) =>
-                                                setProfile({
-                                                    ...profile,
-                                                    role: e.target.value,
-                                                })
-                                            }
-                                        />
+                                {currentUser?.role === "ADMIN" && (
+                                    <div className="d-flex role-container">
                                         <label
                                             style={{
-                                                fontSize: 16,
-                                                fontWeight: 400,
-                                                marginLeft: 5,
+                                                fontSize: 20,
+                                                fontWeight: 500,
                                             }}
-                                            htmlFor="user"
                                         >
-                                            User
+                                            Role
                                         </label>
-                                    </span>
 
-                                    <span
-                                        className="text-nowrap"
-                                        style={{ marginLeft: 10 }}
-                                    >
-                                        <input
-                                            type="radio"
-                                            id="user"
-                                            name="role"
-                                            value="ADMIN"
-                                            checked={profile.role == "ADMIN"}
-                                            disabled={
-                                                profile.role == "USER" && userId
-                                                    ? true
-                                                    : false
-                                            }
-                                            onChange={(e) =>
-                                                setProfile({
-                                                    ...profile,
-                                                    role: e.target.value,
-                                                })
-                                            }
-                                        />
-                                        <label
-                                            htmlFor="user"
-                                            style={{
-                                                fontSize: 16,
-                                                fontWeight: 400,
-                                                marginLeft: 5,
-                                            }}
+                                        <span
+                                            className="text-nowrap"
+                                            style={{ marginLeft: 10 }}
                                         >
-                                            Admin
-                                        </label>
-                                    </span>
-                                </div>
+                                            <input
+                                                type="radio"
+                                                id="user"
+                                                name="role"
+                                                value="USER"
+                                                checked={profile.role == "USER"}
+                                                disabled={
+                                                    profile.role == "ADMIN" &&
+                                                    userId
+                                                        ? true
+                                                        : false
+                                                }
+                                                onChange={(e) =>
+                                                    setProfile({
+                                                        ...profile,
+                                                        role: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                            <label
+                                                style={{
+                                                    fontSize: 16,
+                                                    fontWeight: 400,
+                                                    marginLeft: 5,
+                                                }}
+                                                htmlFor="user"
+                                            >
+                                                User
+                                            </label>
+                                        </span>
+
+                                        <span
+                                            className="text-nowrap"
+                                            style={{ marginLeft: 10 }}
+                                        >
+                                            <input
+                                                type="radio"
+                                                id="user"
+                                                name="role"
+                                                value="ADMIN"
+                                                checked={
+                                                    profile.role == "ADMIN"
+                                                }
+                                                disabled={
+                                                    profile.role == "USER" &&
+                                                    userId
+                                                        ? true
+                                                        : false
+                                                }
+                                                onChange={(e) =>
+                                                    setProfile({
+                                                        ...profile,
+                                                        role: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                            <label
+                                                htmlFor="user"
+                                                style={{
+                                                    fontSize: 16,
+                                                    fontWeight: 400,
+                                                    marginLeft: 5,
+                                                }}
+                                            >
+                                                Admin
+                                            </label>
+                                        </span>
+                                    </div>
+                                )}
 
                                 {isOwnUser && (
                                     <>
@@ -447,86 +452,6 @@ export default function Profile() {
                                 flexShrink: 0,
                             }}
                         ></div>
-
-                        {/* <div
-                                style={{}}
-                                className="d-flex align-items-center"
-                            >
-                                <span
-                                    style={{ fontSize: 20, fontWeight: 500 }}
-                                    className=""
-                                >
-                                    <span
-                                        className="follow-nums"
-                                        style={{ marginRight: 10 }}
-                                    >
-                                        {following.length}
-                                    </span>
-                                    Following
-                                </span>
-
-                                {following && following.length > 0 && (
-                                    <>
-                                        {following.map((user: any) => (
-                                            <>
-                                                <Link
-                                                    to={`/profile/${user._id}`}
-                                                    className="btn btn-secondary"
-                                                    style={{
-                                                        fontWeight: 500,
-                                                        marginLeft: 15,
-                                                    }}
-                                                >
-                                                    {user.username}
-                                                </Link>
-                                            </>
-                                        ))}
-                                    </>
-                                )}
-                            </div>
-
-                            <hr style={{ color: "white", opacity: 1 }} />
-
-                            <div
-                                style={{}}
-                                className="d-flex align-items-center"
-                            >
-                                <span
-                                    style={{ fontSize: 20, fontWeight: 500 }}
-                                    className=""
-                                >
-                                    <span
-                                        className="follow-nums"
-                                        style={{ marginRight: 10 }}
-                                    >
-                                        {followers.length}
-                                    </span>
-                                    Followers
-                                </span>
-
-                                <div className="">
-                                    {followers && followers.length > 0 && (
-                                        <>
-                                            {followers.map((user: any) => (
-                                                <>
-                                                    <Link
-                                                        to={`/profile/${user._id}`}
-                                                        className="btn btn-secondary"
-                                                        style={{
-                                                            marginLeft: 15,
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {user.username}
-                                                    </Link>
-                                                </>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-
-                            <hr style={{ color: "white", opacity: 1 }} /> */}
 
                         <div style={{}} className="">
                             <div
